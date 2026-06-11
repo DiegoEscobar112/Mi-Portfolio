@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diego Escobar Peña — Desarrollador Full Stack</title>
+  <meta name="description" content="Portafolio de Diego Escobar Peña, Ingeniero en Informática y Desarrollador Full Stack. PHP, JavaScript y SQL en producción.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23141318'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-family='sans-serif' font-size='30' font-weight='600' fill='%23edecf1'%3Ed%3Ctspan fill='%23b794e0'%3E.%3C/tspan%3E%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ════════════════════════════════════════════
+       TEMA — colores en variables CSS.
+       Modo oscuro (por defecto) y claro.
+       ════════════════════════════════════════════ */
+    :root, html[data-theme="dark"] {
+      --bg: #141318; --surface: #1a1922; --surface2: #201e2a;
+      --text: #edecf1; --muted: #8e8c98; --faint: #6f6d7a;
+      --accent: #b794e0; --accent-ink: #141318; --accent-soft: #332d3f;
+      --line: #26242e; --nav-bg: rgba(20, 19, 24, 0.78);
+      --shadow: 0 18px 40px -18px rgba(0, 0, 0, 0.55);
+    }
+    html[data-theme="light"] {
+      --bg: #f5f4f7; --surface: #ffffff; --surface2: #edebf2;
+      --text: #1b1a20; --muted: #5d5b66; --faint: #8a8794;
+      --accent: #7d4fae; --accent-ink: #ffffff; --accent-soft: #e4daf1;
+      --line: #e2e0e8; --nav-bg: rgba(245, 244, 247, 0.8);
+      --shadow: 0 18px 40px -22px rgba(40, 30, 60, 0.25);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: 'Space Grotesk', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.35s ease, color 0.35s ease;
+    }
+    a { transition: color 0.25s ease, border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease; }
+    ::selection { background: var(--accent); color: var(--accent-ink); }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+
+    /* ── Navegación ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      background: var(--nav-bg); border-bottom: 1px solid var(--line);
+      transition: background-color 0.35s ease, border-color 0.35s ease;
+    }
+    .nav-inner {
+      max-width: 1080px; margin: 0 auto; padding: 0 32px; height: 64px;
+      display: flex; align-items: center; gap: 28px;
+    }
+    .logo { font-weight: 600; font-size: 17px; color: var(--text); text-decoration: none; }
+    .logo span, .accent { color: var(--accent); }
+    .nav-spacer { flex: 1; }
+    .nav-link { font-size: 14px; color: var(--muted); text-decoration: none; }
+    .nav-link:hover { color: var(--text); }
+    #theme-toggle {
+      cursor: pointer; border: 1px solid var(--line); background: var(--surface);
+      color: var(--muted); border-radius: 99px; padding: 5px 14px; font-size: 13px;
+      font-family: 'JetBrains Mono', monospace; display: flex; align-items: center; gap: 6px;
+      transition: border-color 0.25s ease, color 0.25s ease, background-color 0.35s ease;
+    }
+    #theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── Layout ── */
+    .container { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
+    section { scroll-margin-top: 80px; }
+    .section-head { display: flex; align-items: baseline; gap: 18px; margin-bottom: 48px; }
+    .section-head .num { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--faint); }
+    .section-head h2 { margin: 0; font-size: 32px; font-weight: 500; letter-spacing: -0.02em; }
+    .section-head .rule { flex: 1; height: 1px; background: var(--line); align-self: center; }
+
+    /* ── Hero ── */
+    header.hero { padding: 180px 32px 120px; }
+    .hero-label { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--accent); margin-bottom: 24px; }
+    .hero h1 {
+      margin: 0; font-size: clamp(38px, 5.6vw, 62px); font-weight: 300;
+      line-height: 1.1; letter-spacing: -0.025em; max-width: 760px; min-height: 2.2em;
+      text-wrap: balance;
+    }
+    .hero h1 .typed-accent { font-weight: 600; color: var(--accent); }
+    .cursor {
+      display: inline-block; width: 3px; height: 0.9em; background: var(--accent);
+      margin-left: 6px; vertical-align: -0.1em; animation: blink 1.1s steps(1) infinite;
+    }
+    @keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+    .hero p { margin: 28px 0 0; font-size: 17px; line-height: 1.7; color: var(--muted); max-width: 520px; }
+    .hero-actions { display: flex; gap: 14px; margin-top: 40px; }
+    .btn-primary {
+      text-decoration: none; background: var(--accent); color: var(--accent-ink);
+      font-size: 15px; font-weight: 600; padding: 13px 26px; border-radius: 10px; display: inline-block;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+    .btn-ghost {
+      text-decoration: none; color: var(--text); border: 1px solid var(--line);
+      font-size: 15px; padding: 13px 26px; border-radius: 10px; display: inline-block;
+    }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── Proyectos ── */
+    #proyectos { padding: 40px 32px 110px; }
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(380px, 100%), 1fr)); gap: 24px; }
+    .project-card {
+      background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
+      padding: 34px 34px 30px; display: flex; flex-direction: column; gap: 14px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, background-color 0.35s ease;
+    }
+    .project-card:hover { transform: translateY(-5px); border-color: var(--accent); box-shadow: var(--shadow); }
+    .project-meta { display: flex; justify-content: space-between; align-items: baseline; }
+    .project-meta .num { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--faint); }
+    .project-meta .ctx { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--accent); letter-spacing: 0.05em; }
+    .project-card h3 { margin: 0; font-size: 23px; font-weight: 500; letter-spacing: -0.01em; }
+    .project-card p { margin: 0; font-size: 14.5px; line-height: 1.65; color: var(--muted); flex: 1; }
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+    .tag {
+      font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--accent);
+      border: 1px solid var(--accent-soft); border-radius: 99px; padding: 4px 12px;
+    }
+
+    /* ── Experiencia ── */
+    #experiencia { padding: 0 32px 110px; }
+    #experiencia .section-head { margin-bottom: 12px; }
+    .exp-item {
+      display: grid; grid-template-columns: 220px 1fr; gap: 32px;
+      padding: 38px 0; border-bottom: 1px solid var(--line);
+    }
+    .exp-period { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--accent); margin-bottom: 6px; }
+    .exp-place { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--faint); }
+    .exp-item h3 { margin: 0 0 4px; font-size: 21px; font-weight: 500; }
+    .exp-company { font-size: 15px; color: var(--muted); margin-bottom: 16px; }
+    .exp-item ul { margin: 0; padding: 0 0 0 18px; display: flex; flex-direction: column; gap: 8px; }
+    .exp-item li { font-size: 14.5px; line-height: 1.6; color: var(--muted); }
+
+    /* ── Sobre mí ── */
+    #sobre-mi { padding: 0 32px 110px; }
+    .about-grid { display: grid; grid-template-columns: 180px 1fr; gap: 56px; align-items: start; }
+    .avatar {
+      width: 180px; height: 180px; border-radius: 50%; object-fit: cover;
+      background: var(--surface2); border: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 52px; font-weight: 600; color: var(--accent);
+    }
+    .about-text { margin: 0 0 14px; font-size: 16.5px; line-height: 1.75; color: var(--muted); max-width: 640px; }
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 28px; margin-top: 36px; }
+    .skill-group .label {
+      font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--faint);
+      letter-spacing: 0.08em; margin-bottom: 12px;
+    }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip {
+      font-size: 13px; color: var(--text); background: var(--surface2);
+      border-radius: 8px; padding: 6px 13px; transition: background-color 0.25s ease, color 0.25s ease;
+    }
+    .chip:hover { background: var(--accent-soft); color: var(--accent); }
+
+    /* ── Contacto ── */
+    #contacto { border-top: 1px solid var(--line); }
+    .contact-inner { padding: 110px 32px 90px; text-align: center; max-width: 1080px; margin: 0 auto; }
+    .contact-label { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--accent); margin-bottom: 20px; }
+    #contacto h2 {
+      margin: 0 auto; font-size: clamp(32px, 4.6vw, 52px); font-weight: 300;
+      letter-spacing: -0.02em; max-width: 620px; line-height: 1.15;
+    }
+    #contacto h2 strong { font-weight: 600; color: var(--accent); }
+    .contact-cta { margin-top: 44px; }
+    .contact-links {
+      margin-top: 28px; display: flex; justify-content: center; gap: 26px; flex-wrap: wrap;
+      font-family: 'JetBrains Mono', monospace; font-size: 13px;
+    }
+    .contact-links a { color: var(--muted); text-decoration: none; }
+    .contact-links a:hover { color: var(--accent); }
+    .contact-links .dot { color: var(--line); }
+    .contact-links .loc { color: var(--muted); }
+    footer { border-top: 1px solid var(--line); }
+    .footer-inner {
+      max-width: 1080px; margin: 0 auto; padding: 24px 32px;
+      display: flex; justify-content: space-between;
+      font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--faint);
+    }
+
+    /* ── Animación de aparición al hacer scroll ── */
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .cursor { animation: none; }
+      html { scroll-behavior: auto; }
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 760px) {
+      .nav-link { display: none; }
+      .exp-item, .about-grid { grid-template-columns: 1fr; gap: 12px; }
+      .about-grid { gap: 32px; }
+      header.hero { padding: 140px 24px 90px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══════════ NAVEGACIÓN ══════════ -->
+  <nav>
+    <div class="nav-inner">
+      <a class="logo" href="#inicio">de<span>.</span></a>
+      <span class="nav-spacer"></span>
+      <a class="nav-link" href="#proyectos">Proyectos</a>
+      <a class="nav-link" href="#experiencia">Experiencia</a>
+      <a class="nav-link" href="#sobre-mi">Sobre mí</a>
+      <a class="nav-link" href="#contacto">Contacto</a>
+      <button id="theme-toggle" aria-label="Cambiar tema">☾ oscuro</button>
+    </div>
+  </nav>
+
+  <!-- ══════════ HERO ══════════ -->
+  <header id="inicio" class="hero container">
+    <div class="hero-label">// desarrollador full stack</div>
+    <h1>
+      <span id="typed-1"></span><span id="typed-2" class="typed-accent"></span><span id="typed-3"></span><span class="cursor"></span>
+    </h1>
+    <p>Diego Escobar Peña — Ingeniero en Informática (Duoc UC). Desarrollo y mantengo plataformas web con PHP, JavaScript y SQL. Actualmente en LET Chile.</p>
+    <div class="hero-actions">
+      <a class="btn-primary" href="#proyectos">Ver proyectos →</a>
+      <a class="btn-ghost" href="#contacto">Contacto</a>
+    </div>
+  </header>
+
+  <!-- ══════════ PROYECTOS ══════════
+       ✏️ Para agregar un proyecto: duplica un bloque <article> completo
+       y edita título, contexto, descripción y tags. -->
+  <section id="proyectos" class="container">
+    <div class="section-head reveal">
+      <span class="num">01</span>
+      <h2>Proyectos</h2>
+      <span class="rule"></span>
+    </div>
+    <div class="projects-grid">
+
+      <article class="project-card reveal">
+        <div class="project-meta"><span class="num">01</span><span class="ctx">LET CHILE</span></div>
+        <h3>Módulo de reportería interna</h3>
+        <p>Automatización de reportes de gestión con consultas optimizadas, procedimientos almacenados y exportación programada de información.</p>
+        <div class="tags"><span class="tag">PHP</span><span class="tag">CodeIgniter</span><span class="tag">SQL Server</span></div>
+      </article>
+
+      <article class="project-card reveal">
+        <div class="project-meta"><span class="num">02</span><span class="ctx">LET CHILE</span></div>
+        <h3>Integración con servicios externos</h3>
+        <p>Conexión de plataformas internas con APIs y servicios web de terceros para el flujo de inspecciones vehiculares.</p>
+        <div class="tags"><span class="tag">REST</span><span class="tag">APIs</span><span class="tag">JavaScript</span></div>
+      </article>
+
+      <article class="project-card reveal">
+        <div class="project-meta"><span class="num">03</span><span class="ctx">DEVSTI SPA</span></div>
+        <h3>Plataforma de gestión a medida</h3>
+        <p>Desarrollo y mantenimiento de aplicaciones web para optimización y automatización de procesos empresariales.</p>
+        <div class="tags"><span class="tag">PHP</span><span class="tag">Symfony</span><span class="tag">Twig</span></div>
+      </article>
+
+      <article class="project-card reveal">
+        <div class="project-meta"><span class="num">04</span><span class="ctx">DEVSTI SPA</span></div>
+        <h3>Optimización de datos y consultas</h3>
+        <p>Diseño y optimización de consultas SQL para la gestión y análisis de información de clientes y áreas de negocio.</p>
+        <div class="tags"><span class="tag">SQL</span><span class="tag">Análisis</span><span class="tag">Select2</span></div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ══════════ EXPERIENCIA ══════════
+       ✏️ Para agregar experiencia: duplica un bloque .exp-item completo. -->
+  <section id="experiencia" class="container">
+    <div class="section-head reveal">
+      <span class="num">02</span>
+      <h2>Experiencia</h2>
+      <span class="rule"></span>
+    </div>
+
+    <div class="exp-item reveal">
+      <div>
+        <div class="exp-period">Ene 2025 — Presente</div>
+        <div class="exp-place">Santiago, CL</div>
+      </div>
+      <div>
+        <h3>Desarrollador Full Stack</h3>
+        <div class="exp-company">LET Chile — soluciones para la industria aseguradora</div>
+        <ul>
+          <li>Desarrollo y mantenimiento de funcionalidades en plataformas web internas con PHP, CodeIgniter, JavaScript y SQL Server.</li>
+          <li>Creación y optimización de consultas, validaciones y procedimientos almacenados.</li>
+          <li>Integración con servicios externos mediante APIs y servicios web.</li>
+          <li>Pruebas funcionales, documentación técnica y apoyo en despliegues.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div>
+        <div class="exp-period">Mar 2024 — Ene 2025</div>
+        <div class="exp-place">Santiago, CL</div>
+      </div>
+      <div>
+        <h3>Soporte técnico y desarrollo</h3>
+        <div class="exp-company">Devsti SpA — software a medida para procesos empresariales</div>
+        <ul>
+          <li>Desarrollo y mantenimiento de aplicaciones web con PHP y Symfony.</li>
+          <li>Implementación de funcionalidades alineadas a requerimientos de clientes.</li>
+          <li>Desarrollo de interfaces de usuario con Twig, JavaScript y Select2.</li>
+          <li>Análisis técnico y soporte a usuarios para resolución de incidencias.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div>
+        <div class="exp-period">2021 — 2025</div>
+        <div class="exp-place">San Bernardo, CL</div>
+      </div>
+      <div>
+        <h3>Ingeniería en Informática</h3>
+        <div class="exp-company">Instituto Profesional Duoc UC</div>
+        <ul>
+          <li>Certificaciones: Programación, Arquitectura y Calidad de Software, Modelos de Datos, Inteligencia de Negocios, Gestión de Proyectos.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ SOBRE MÍ ══════════ -->
+  <section id="sobre-mi" class="container">
+    <div class="section-head reveal">
+      <span class="num">03</span>
+      <h2>Sobre mí</h2>
+      <span class="rule"></span>
+    </div>
+    <div class="about-grid">
+      <!-- ✏️ Para usar tu foto: reemplaza este div por
+           <img class="avatar" src="foto.jpg" alt="Diego Escobar Peña"> -->
+      <div class="avatar reveal">DE</div>
+      <div>
+        <p class="about-text reveal">Ingeniero en Informática titulado el 2024 en Duoc UC. Me interesa especialmente el desarrollo de software y el aprendizaje constante de nuevas tecnologías. He trabajado en desarrollo a medida para optimización de procesos empresariales (Devsti SpA) y en soluciones tecnológicas para la industria aseguradora (LET Chile).</p>
+        <div class="skills-grid">
+          <div class="skill-group reveal">
+            <div class="label">LENGUAJES</div>
+            <div class="chips"><span class="chip">PHP</span><span class="chip">JavaScript</span><span class="chip">Python</span><span class="chip">SQL</span><span class="chip">HTML5</span><span class="chip">CSS3</span></div>
+          </div>
+          <div class="skill-group reveal">
+            <div class="label">FRAMEWORKS</div>
+            <div class="chips"><span class="chip">Symfony</span><span class="chip">CodeIgniter</span><span class="chip">Laravel</span><span class="chip">Django</span><span class="chip">Bootstrap</span><span class="chip">jQuery</span></div>
+          </div>
+          <div class="skill-group reveal">
+            <div class="label">BASES DE DATOS</div>
+            <div class="chips"><span class="chip">SQL Server</span><span class="chip">PostgreSQL</span></div>
+          </div>
+          <div class="skill-group reveal">
+            <div class="label">HERRAMIENTAS</div>
+            <div class="chips"><span class="chip">Git</span><span class="chip">GitHub</span><span class="chip">Docker</span><span class="chip">Postman</span><span class="chip">VS Code</span><span class="chip">Claude</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ CONTACTO ══════════ -->
+  <section id="contacto">
+    <div class="contact-inner">
+      <div class="contact-label reveal">// contacto</div>
+      <h2 class="reveal">¿Tienes un proyecto o una vacante? <strong>Conversemos.</strong></h2>
+      <div class="contact-cta reveal">
+        <a class="btn-primary" href="/cdn-cgi/l/email-protection#fa9e939f9d95979b888e9394d49f8acbc2ba9d979b9396d4999597"><span class="__cf_email__" data-cfemail="63070a06040c0e0211170a0d4d0613525b23040e020a0f4d000c0e">[email&#160;protected]</span></a>
+      </div>
+      <div class="contact-links reveal">
+        <a href="tel:+56996630492">+56 9 9663 0492</a>
+        <span class="dot">·</span>
+        <a href="https://www.linkedin.com/in/diego-escobar-pena" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <span class="dot">·</span>
+        <span class="loc">San Bernardo, Chile</span>
+      </div>
+    </div>
+    <footer>
+      <div class="footer-inner">
+        <span>© 2026 Diego Escobar Peña</span>
+        <span>de<span class="accent">.</span></span>
+      </div>
+    </footer>
+  </section>
+
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    // ════════════════════════════════════════════
+    // TEMA claro / oscuro (recuerda la preferencia)
+    // ════════════════════════════════════════════
+    (function () {
+      var btn = document.getElementById('theme-toggle');
+      var saved = null;
+      try { saved = localStorage.getItem('dep-theme'); } catch (e) {}
+      var theme = (saved === 'light' || saved === 'dark') ? saved : 'dark';
+
+      function apply(t) {
+        document.documentElement.setAttribute('data-theme', t);
+        btn.textContent = t === 'dark' ? '☾ oscuro' : '☀ claro';
+        try { localStorage.setItem('dep-theme', t); } catch (e) {}
+      }
+      apply(theme);
+      btn.addEventListener('click', function () {
+        theme = theme === 'dark' ? 'light' : 'dark';
+        apply(theme);
+      });
+    })();
+
+    // ════════════════════════════════════════════
+    // TYPEWRITER del hero
+    // ✏️ Edita aquí las tres partes de la frase
+    // ════════════════════════════════════════════
+    (function () {
+      var P1 = 'Construyo software que ';
+      var P2 = 'ordena procesos';          // parte destacada en púrpura
+      var P3 = ' y simplifica el trabajo.';
+      var e1 = document.getElementById('typed-1');
+      var e2 = document.getElementById('typed-2');
+      var e3 = document.getElementById('typed-3');
+      var total = P1.length + P2.length + P3.length;
+      var n = 0;
+
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        e1.textContent = P1; e2.textContent = P2; e3.textContent = P3;
+        return;
+      }
+      var timer = setInterval(function () {
+        n++;
+        e1.textContent = P1.slice(0, n);
+        e2.textContent = P2.slice(0, Math.max(0, n - P1.length));
+        e3.textContent = P3.slice(0, Math.max(0, n - P1.length - P2.length));
+        if (n >= total) clearInterval(timer);
+      }, 34);
+    })();
+
+    // ════════════════════════════════════════════
+    // APARICIÓN suave al hacer scroll
+    // ════════════════════════════════════════════
+    (function () {
+      var els = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
+      els.forEach(function (el, i) { el.style.transitionDelay = (i % 3) * 0.08 + 's'; });
+
+      function check() {
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        els = els.filter(function (el) {
+          var r = el.getBoundingClientRect();
+          if (r.top < vh - 40 && r.bottom > 0) {
+            el.classList.add('visible');
+            return false;
+          }
+          return true;
+        });
+        if (!els.length) {
+          window.removeEventListener('scroll', onScroll);
+          window.removeEventListener('resize', onScroll);
+        }
+      }
+      var ticking = false;
+      function onScroll() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () { ticking = false; check(); });
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll);
+      check();
+
+      // Red de seguridad: nada queda oculto pase lo que pase
+      setTimeout(function () {
+        document.querySelectorAll('.reveal:not(.visible)').forEach(function (el) {
+          el.classList.add('visible');
+        });
+      }, 4000);
+    })();
+  </script>
+</body>
+</html>
